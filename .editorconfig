@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# CS1591: Commentaire XML manquant pour le type ou le membre visible publiquement
+dotnet_diagnostic.CS1591.severity = silent

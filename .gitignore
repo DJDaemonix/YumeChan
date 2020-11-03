@@ -329,3 +329,6 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+src/Nodsoft.YumeChan.NetRunner/Config/coreconfig.json
+
+src/Nodsoft.YumeChan.ConsoleRunner/Config/coreconfig.json

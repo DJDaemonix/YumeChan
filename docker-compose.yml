@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  nodsoft.yumechan.netrunner:
+    container_name: Yume-Chan (NetRunner)
+    image: ${DOCKER_REGISTRY-}nodsoftyumechannetrunner
+    build:
+      context: .
+      dockerfile: src/Nodsoft.YumeChan.NetRunner/Dockerfile
+  nodsoft.yumechan.consolerunner:
+    container_name: Yume-Chan (ConsoleRunner)
+    image: ${DOCKER_REGISTRY-}nodsoftyumechanconsolerunner
+    build:
+      context: .
+      dockerfile: src/Nodsoft.YumeChan.ConsoleRunner/Dockerfile

@@ -22,8 +22,8 @@
 		<PackageReference Include="Config.Net.Json" Version="4.15.0" />
 		<PackageReference Include="Discord.Net" Version="2.2.0" />
 		<PackageReference Include="Discord.Net.Commands" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0-preview.8.20407.11" />
-		<PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0-preview.8.20407.11" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0-rc.2.20475.5" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0-rc.2.20475.5" />
 		<PackageReference Include="SourceLink.Create.CommandLine" Version="2.8.3">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

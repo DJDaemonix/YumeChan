@@ -44,6 +44,8 @@ namespace Nodsoft.YumeChan.Core
 		internal ConfigurationProvider<ICoreProperties> ConfigProvider { get; private set; }
 		public ICoreProperties CoreProperties { get; private set; }
 
+		private string BotToken { get; set; }
+
 		// Constructors
 		static YumeCore() { /* Static ctor for Singleton implementation */ }
 
@@ -68,7 +70,7 @@ namespace Nodsoft.YumeChan.Core
 			return Task.FromResult(services);
 		}
 
-		public async Task StartBotAsync()
+		public Task InitServicesAsync()
 		{
 			if (Services is null)
 			{
@@ -81,10 +83,15 @@ namespace Nodsoft.YumeChan.Core
 			ConfigProvider ??= Services.GetRequiredService<PluginBase.Tools.IConfigProvider<ICoreProperties>>() as ConfigurationProvider<ICoreProperties>;
 			CoreProperties = ConfigProvider.InitConfig("coreconfig.json", true).PopulateCoreProperties();
 
-			CoreProperties.Path_Core	??= Directory.GetCurrentDirectory();
+			CoreProperties.Path_Core ??= Directory.GetCurrentDirectory();
 			CoreProperties.Path_Plugins ??= CoreProperties.Path_Core + Path.DirectorySeparatorChar + "Plugins";
-			CoreProperties.Path_Config	??= CoreProperties.Path_Core + Path.DirectorySeparatorChar + "Config";
+			CoreProperties.Path_Config ??= CoreProperties.Path_Core + Path.DirectorySeparatorChar + "Config";
 
+			return Task.CompletedTask;
+		}
+
+		public async Task StartBotAsync()
+		{
 			CoreState = YumeCoreState.Starting;
 
 			// Event Subscriptions
@@ -97,7 +104,7 @@ namespace Nodsoft.YumeChan.Core
 			await RegisterTypeReaders();
 			await RegisterCommandsAsync().ConfigureAwait(false);
 
-			await Client.LoginAsync(TokenType.Bot, await GetBotTokenAsync());
+			await Client.LoginAsync(TokenType.Bot, BotToken ?? await GetBotTokenAsync());
 			await Client.StartAsync();
 
 			CoreState = YumeCoreState.Online;
@@ -282,6 +289,27 @@ namespace Nodsoft.YumeChan.Core
 				foundFromTarget = EnvironmentVariableTarget.Process;
 				return Task.FromResult(token is not null);
 			}
+		}
+
+		public Task SetBotToken(string token)
+		{
+			if (Instance.CoreState is 0)
+			{
+				BotToken = token;
+				string msg = $"Token Set Externally";
+#if DEBUG
+				msg += $" : {token}";
+#endif
+
+				Logger.LogInformation(msg);
+				return Task.CompletedTask;
+			}
+#if DEBUG
+			else
+			{
+				throw new ApplicationException($"Bot is currently running (state : {CoreState}), cannot change Token.");
+			}
+#endif
 		}
 	}
 }

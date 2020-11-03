@@ -14,10 +14,15 @@
 		<RepositoryType>Git</RepositoryType>
 		<AssemblyVersion>0.3.1.0</AssemblyVersion>
 		<FileVersion>0.3.1.0</FileVersion>
+		<DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
+		<UserSecretsId>32233342-a8ca-4258-bd39-3a76ee07b952</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<DockerfileContext>..\..</DockerfileContext>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<OutDir>$(SolutionDir)build</OutDir>
+		<DefineConstants>DEBUG;TRACE</DefineConstants>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<OutDir>$(SolutionDir)build</OutDir>
@@ -30,24 +35,28 @@
 	</ItemGroup>
 	
 	<ItemGroup>
+		<ProjectReference Include="..\Nodsoft.YumeChan.Common\Nodsoft.YumeChan.Common.csproj" />
 		<ProjectReference Include="..\Nodsoft.YumeChan.Core\Nodsoft.YumeChan.Core.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Folder Include="Data\" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.AzureADB2C.UI" Version="5.0.0-preview.8.20414.8" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.0-preview.8.20407.4" />
-		<PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0-preview.8.20407.11" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="5.0.0-preview.8.20407.11" />
-		<PackageReference Include="Microsoft.Identity.Web" Version="0.3.1-preview" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.AzureADB2C.UI" Version="5.0.0-rc.2.20475.17" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.0-rc.2.20475.6" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0-rc.2.20475.5" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="5.0.0-rc.2.20475.5" />
+		<PackageReference Include="Microsoft.Identity.Web" Version="1.2.0" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
 		<PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />
-		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.0-preview.8.20419.1" />
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.0-rc.2.20516.1" />
 		<PackageReference Include="SourceLink.Create.CommandLine" Version="2.8.3">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0-preview.8.20407.11" />
+		<PackageReference Include="System.CommandLine" Version="2.0.0-beta1.20371.2" />
+		<PackageReference Include="System.CommandLine.DragonFruit" Version="0.3.0-alpha.20371.2" />
+		<PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0-rc.2.20475.5" />
 	</ItemGroup>
 
 	<ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
