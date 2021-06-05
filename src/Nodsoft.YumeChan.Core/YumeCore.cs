@@ -31,7 +31,7 @@ namespace Nodsoft.YumeChan.Core
 		public CommandHandler CommandHandler { get; set; }
 		public IContainer Services { get; set; }
 
-		internal ILogger Logger { get; set; }
+		internal ILogger<YumeCore> Logger { get; set; }
 
 		internal ConfigurationProvider<ICoreProperties> ConfigProvider { get; private set; }
 		public ICoreProperties CoreProperties { get; private set; }
@@ -55,8 +55,8 @@ namespace Nodsoft.YumeChan.Core
 				LoggerFactory = services.GetRequiredService<ILoggerFactory>(),
 				MinimumLogLevel = LogLevel.Information
 			}))
-			.AddSingleton<CommandHandler>()
 			.AddHttpClient()
+			.AddSingleton<CommandHandler>()
 			.AddSingleton(typeof(IDatabaseProvider<>), typeof(DatabaseProvider<>))
 			.AddSingleton(typeof(IConfigProvider<>), typeof(ConfigurationProvider<>));
 

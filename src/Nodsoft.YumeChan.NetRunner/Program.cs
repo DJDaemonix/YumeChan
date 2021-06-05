@@ -36,7 +36,7 @@ namespace Nodsoft.YumeChan.NetRunner
 				.UseLamar()
 				.ConfigureLogging(builder =>
 				{
-
+					builder.AddSerilog(Log.Logger);
 				})
 				.ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>())
 				.UseSerilog();

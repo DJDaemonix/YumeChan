@@ -53,22 +53,41 @@ namespace Nodsoft.YumeChan.Core
 		public void LoadPluginAssemblies()
 		{
 			PluginFiles = new List<FileInfo>(PluginsLoadDirectory.GetFiles($"*{PluginsLoadDiscriminator}*.dll"));
-			
 			PluginAssemblies ??= new List<Assembly>();
-			PluginAssemblies.AddRange
-			(
-				from FileInfo file in PluginFiles
-				where file is not null || file.Name != Path.GetFileName(typeof(Plugin).Assembly.Location)
-				select Assembly.LoadFile(file.ToString())
-			);
+
+			foreach (FileInfo file in PluginFiles)
+			{
+				if (file is not null || file.Name != Path.GetFileName(typeof(Plugin).Assembly.Location))
+				{
+					PluginLoadContext loadContext = new(file);
+					PluginAssemblies.Add(loadContext.LoadFromAssemblyName(new AssemblyName(Path.GetFileNameWithoutExtension(loadContext.File.FullName))));
+				}
+			}
 		}
 
-		public IEnumerable<Plugin> LoadPluginManifests() =>
-			from Assembly a in PluginAssemblies
-			from Type t in a.ExportedTypes
-			where t.IsSubclassOf(typeof(Plugin))
-			select InstantiateManifest(t);
+		public List<Plugin> LoadPluginManifests()
+		{
+			List<Plugin> plugins = new();
 
-		internal static Plugin InstantiateManifest(Type typePlugin) => ActivatorUtilities.CreateInstance(YumeCore.Instance.Services, typePlugin) as Plugin;
+			foreach (Assembly a in PluginAssemblies)
+			{
+				foreach (Type t in a.ExportedTypes)
+				{
+					if (t.BaseType.FullName == typeof(Plugin).FullName)
+					{
+						plugins.Add(InstantiateManifest(t));
+						break;
+					}
+				}
+			}
+
+			return plugins;
+		}
+
+		internal static Plugin InstantiateManifest(Type typePlugin)
+		{
+			object instance = ActivatorUtilities.CreateInstance(YumeCore.Instance.Services, typePlugin);
+			return instance as Plugin;
+		}
 	}
 }

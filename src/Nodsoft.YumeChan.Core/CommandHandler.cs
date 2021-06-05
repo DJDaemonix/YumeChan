@@ -84,10 +84,20 @@ namespace Nodsoft.YumeChan.Core
 			Plugins = new() { new Modules.InternalPlugin() }; // Add YumeCore internal commands
 			externalModulesLoader.LoadPluginAssemblies();
 
-			Plugins.AddRange(from Plugin plugin
-							 in externalModulesLoader.LoadPluginManifests()
-							 where !Plugins.Exists(p => p?.PluginAssemblyName == plugin.PluginAssemblyName)
-							 select plugin);
+			IEnumerable<Plugin> pluginManifests = externalModulesLoader.LoadPluginManifests();
+
+			IEnumerable<Plugin> collection()
+			{
+				foreach (Plugin plugin in pluginManifests)
+				{
+					if (!Plugins.Exists(p => p?.PluginAssemblyName == plugin.PluginAssemblyName))
+					{
+						yield return plugin;
+					}
+				}
+			}
+
+			Plugins.AddRange(collection());
 
 			foreach (Plugin plugin in Plugins)
 			{

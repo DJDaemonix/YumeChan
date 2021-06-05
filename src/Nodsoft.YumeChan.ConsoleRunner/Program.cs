@@ -37,6 +37,10 @@ namespace Nodsoft.YumeChan.ConsoleRunner
 				{
 					YumeCore.Instance.ConfigureServices(services);
 				})
+				.ConfigureLogging(builder => 
+				{
+					builder.AddSerilog(Log.Logger);
+				})
 				.UseSerilog();
 		}
 	}
